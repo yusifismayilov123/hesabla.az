@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hesabla.az — Pulsuz Onlayn Kalkulyatorlar</title>
+<meta name="description" content="Hesabla.az — yaş, endirim, BMI, kredit, valyuta, ölçü, çəki, temperatur və faiz hesablayan pulsuz onlayn kalkulyatorlar.">
+<meta name="keywords" content="hesabla.az, kalkulyator, yaş kalkulyatoru, endirim kalkulyatoru, BMI kalkulyatoru, kredit kalkulyatoru, valyuta çevirici, faiz kalkulyatoru">
+<meta name="robots" content="index, follow">
+<meta name="google-site-verification" content="vtnUuOrtKKoJ1L0PQRIMAG6qZGpJRcC7NWAHNtATP9c">
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}
+header{background:#1769e0;color:white;padding:30px 16px;text-align:center}header h1{margin:0 0 8px;font-size:34px}
+.container{max-width:1100px;margin:25px auto;padding:0 16px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 5px 18px rgba(0,0,0,.08)}.card h2{margin-top:0;font-size:21px}
+input,select{width:100%;padding:11px;margin:7px 0;border:1px solid #ccd4e0;border-radius:9px;font-size:15px}
+button{width:100%;padding:12px;border:0;border-radius:9px;background:#1769e0;color:#fff;font-size:15px;cursor:pointer;margin-top:8px}
+.result{margin-top:12px;font-weight:bold;min-height:22px}footer{text-align:center;padding:28px;color:#667085}
+</style>
+</head>
+<body>
+<header><h1>Hesabla.az</h1><p>Pulsuz və sadə onlayn kalkulyatorlar</p></header>
+<div class="container"><div class="grid">
+
+<div class="card"><h2>💱 Valyuta Çevirici</h2><input id="ca" type="number" placeholder="Məbləğ"><select id="cu"><option value="1.70">USD — Dollar</option><option value="1.99">EUR — Avro</option><option value="0.039">TRY — Türk lirəsi</option><option value="2.30">GBP — Funt</option></select><button onclick="currency()">Hesabla</button><div class="result" id="cr"></div></div>
+
+<div class="card"><h2>📏 Ölçü Çevirici</h2><input id="lv" type="number" placeholder="Dəyər"><select id="lu"><option value=".01">Santimetr</option><option value="1">Metr</option><option value="1000">Kilometr</option><option value=".0254">Düym</option></select><button onclick="length()">Metrə çevir</button><div class="result" id="lr"></div></div>
+
+<div class="card"><h2>⚖️ Çəki Çevirici</h2><input id="wv" type="number" placeholder="Dəyər"><select id="wu"><option value="1">Kiloqram</option><option value=".001">Qram</option><option value=".453592">Funt</option></select><button onclick="weight()">Kiloqrama çevir</button><div class="result" id="wr"></div></div>
+
+<div class="card"><h2>🌡️ Temperatur</h2><input id="tv" type="number" placeholder="Temperatur"><select id="tu"><option value="C">Celsius → Fahrenheit</option><option value="F">Fahrenheit → Celsius</option></select><button onclick="temp()">Hesabla</button><div class="result" id="tr"></div></div>
+
+<div class="card"><h2>📊 Faiz Kalkulyatoru</h2><input id="pv" type="number" placeholder="Ədəd"><input id="pp" type="number" placeholder="Faiz (%)"><button onclick="percent()">Hesabla</button><div class="result" id="pr"></div></div>
+
+<div class="card"><h2>🎂 Yaş Kalkulyatoru</h2><input id="bd" type="date"><button onclick="age()">Yaşımı hesabla</button><div class="result" id="ar"></div></div>
+
+<div class="card"><h2>🏷️ Endirim Kalkulyatoru</h2><input id="price" type="number" placeholder="Qiymət (AZN)"><input id="disc" type="number" placeholder="Endirim (%)"><button onclick="discount()">Hesabla</button><div class="result" id="dr"></div></div>
+
+<div class="card"><h2>⚖️ BMI Kalkulyatoru</h2><input id="height" type="number" placeholder="Boy (sm)"><input id="bweight" type="number" placeholder="Çəki (kq)"><button onclick="bmi()">BMI hesabla</button><div class="result" id="br"></div></div>
+
+<div class="card"><h2>💰 Kredit Kalkulyatoru</h2><input id="loan" type="number" placeholder="Kredit (AZN)"><input id="rate" type="number" placeholder="İllik faiz (%)"><input id="months" type="number" placeholder="Müddət (ay)"><button onclick="credit()">Aylıq ödənişi hesabla</button><div class="result" id="lr2"></div></div>
+
+</div></div>
+<footer>© 2026 Hesabla.az — Pulsuz onlayn kalkulyatorlar</footer>
+<script>
+const q=id=>document.getElementById(id),v=id=>parseFloat(q(id).value);
+function currency(){let x=v("ca"),r=v("cu");q("cr").textContent=isNaN(x)?"Məbləğ daxil et":(x*r).toFixed(2)+" AZN"}
+function length(){let x=v("lv"),r=v("lu");q("lr").textContent=isNaN(x)?"Dəyər daxil et":(x*r).toFixed(4)+" metr"}
+function weight(){let x=v("wv"),r=v("wu");q("wr").textContent=isNaN(x)?"Dəyər daxil et":(x*r).toFixed(3)+" kq"}
+function temp(){let x=v("tv"),r=q("tu").value;if(isNaN(x)){q("tr").textContent="Dəyər daxil et";return}q("tr").textContent=(r==="C"?x*9/5+32:(x-32)*5/9).toFixed(2)+" °"+(r==="C"?"F":"C")}
+function percent(){let x=v("pv"),p=v("pp");q("pr").textContent=isNaN(x)||isNaN(p)?"Dəyərləri daxil et":(x*p/100).toFixed(2)}
+function age(){let s=q("bd").value;if(!s){q("ar").textContent="Doğum tarixini seç";return}let b=new Date(s+"T00:00:00"),t=new Date(),a=t.getFullYear()-b.getFullYear();if(t.getMonth()<b.getMonth()||(t.getMonth()===b.getMonth()&&t.getDate()<b.getDate()))a--;q("ar").textContent=a+" yaş"}
+function discount(){let p=v("price"),d=v("disc");if(isNaN(p)||isNaN(d)){q("dr").textContent="Məlumatları daxil et";return}q("dr").textContent="Son qiymət: "+(p-p*d/100).toFixed(2)+" AZN | Qənaət: "+(p*d/100).toFixed(2)+" AZN"}
+function bmi(){let h=v("height")/100,w=v("bweight");if(!h||!w){q("br").textContent="Boy və çəkini daxil et";return}let b=w/(h*h);q("br").textContent="BMI: "+b.toFixed(1)+" — "+(b<18.5?"Aşağı çəki":b<25?"Normal":b<30?"Artıq çəki":"Piylənmə")}
+function credit(){let P=v("loan"),a=v("rate"),m=v("months");if(!P||!m||isNaN(a)){q("lr2").textContent="Məlumatları daxil et";return}let r=a/100/12,p=r===0?P/m:P*r*Math.pow(1+r,m)/(Math.pow(1+r,m)-1);q("lr2").textContent="Aylıq ödəniş: "+p.toFixed(2)+" AZN"}
+</script>
+</body></html>
