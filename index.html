@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hesabla.az — Pulsuz hesablayıcılar</title>
+<meta name="description" content="Valyuta, ölçü, çəki, temperatur və faiz hesablayıcıları.">
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#172033}
+header{background:#111827;color:white;padding:24px 18px;text-align:center}
+header h1{margin:0;font-size:32px}header p{margin:8px 0 0;color:#cbd5e1}
+main{max-width:950px;margin:28px auto;padding:0 16px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+button{border:0;border-radius:10px;padding:12px 16px;background:#e5e7eb;cursor:pointer;font-weight:600}
+button.active{background:#111827;color:white}
+.card{background:white;border-radius:18px;padding:24px;box-shadow:0 5px 25px #00000010}
+h2{margin-top:0}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+input,select{width:100%;padding:14px;border:1px solid #d1d5db;border-radius:10px;font-size:16px;margin-top:7px}
+.result{margin-top:18px;padding:16px;border-radius:12px;background:#eef2ff;font-size:20px;font-weight:700}
+label{font-size:14px;font-weight:600}footer{text-align:center;padding:30px;color:#64748b}
+@media(max-width:600px){.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><h1>Hesabla.az</h1><p>Pulsuz və sürətli hesablayıcılar</p></header>
+<main>
+<div class="tabs">
+<button class="active" onclick="show('currency',this)">💱 Valyuta</button>
+<button onclick="show('length',this)">📏 Uzunluq</button>
+<button onclick="show('weight',this)">⚖️ Çəki</button>
+<button onclick="show('temp',this)">🌡️ Temperatur</button>
+<button onclick="show('percent',this)">🧮 Faiz</button>
+</div>
+
+<section id="currency" class="card tool">
+<h2>Valyuta çevirici</h2>
+<div class="row">
+<div><label>Məbləğ</label><input id="money" type="number" value="100" oninput="currency()"></div>
+<div><label>Valyuta</label><select id="cur" onchange="currency()"><option value="USD">USD → AZN</option><option value="EUR">EUR → AZN</option><option value="TRY">TRY → AZN</option><option value="GBP">GBP → AZN</option></select></div>
+</div>
+<div class="result" id="currencyResult"></div>
+<small>Məzənnələr nümunə olaraq göstərilir; real məzənnə üçün canlı məzənnə API-si qoşula bilər.</small>
+</section>
+
+<section id="length" class="card tool" style="display:none">
+<h2>Uzunluq çevirici</h2><div class="row"><div><label>Dəyər</label><input id="len" type="number" value="1" oninput="lengthCalc()"></div><div><label>Vahid</label><select id="lenUnit" onchange="lengthCalc()"><option value="km">Kilometr</option><option value="m">Metr</option><option value="cm">Santimetr</option><option value="mm">Millimetr</option></select></div></div><div class="result" id="lengthResult"></div>
+</section>
+
+<section id="weight" class="card tool" style="display:none">
+<h2>Çəki çevirici</h2><div class="row"><div><label>Dəyər</label><input id="weight" type="number" value="1" oninput="weightCalc()"></div><div><label>Vahid</label><select id="weightUnit" onchange="weightCalc()"><option value="kg">Kiloqram</option><option value="g">Qram</option><option value="lb">Pound</option></select></div></div><div class="result" id="weightResult"></div>
+</section>
+
+<section id="temp" class="card tool" style="display:none">
+<h2>Temperatur çevirici</h2><div class="row"><div><label>Dəyər</label><input id="temperature" type="number" value="25" oninput="tempCalc()"></div><div><label>Vahid</label><select id="tempUnit" onchange="tempCalc()"><option value="c">°C</option><option value="f">°F</option></select></div></div><div class="result" id="tempResult"></div>
+</section>
+
+<section id="percent" class="card tool" style="display:none">
+<h2>Faiz kalkulyatoru</h2><div class="row"><div><label>Ədəd</label><input id="num" type="number" value="200" oninput="percentCalc()"></div><div><label>Faiz (%)</label><input id="pct" type="number" value="15" oninput="percentCalc()"></div></div><div class="result" id="percentResult"></div>
+</section>
+</main>
+<footer>© 2026 Hesabla.az · Haqqımızda · Məxfilik siyasəti · Əlaqə</footer>
+<script>
+function show(id,b){document.querySelectorAll('.tool').forEach(x=>x.style.display='none');document.getElementById(id).style.display='block';document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active')}
+const rates={USD:1.70,EUR:1.99,TRY:0.039,GBP:2.30};
+function currency(){let v=+money.value||0;currencyResult.textContent=(v*rates[cur.value]).toFixed(2)+' AZN'}
+function lengthCalc(){let v=+len.value||0, f={km:1000,m:1,cm:.01,mm:.001}[lenUnit.value];lengthResult.textContent=(v*f).toLocaleString('az-AZ')+' metr'}
+function weightCalc(){let v=+weight.value||0, f={kg:1,g:.001,lb:.45359237}[weightUnit.value];weightResult.textContent=(v*f).toFixed(4)+' kq'}
+function tempCalc(){let v=+temperature.value||0;tempResult.textContent=tempUnit.value==='c'?((v*9/5)+32).toFixed(2)+' °F':((v-32)*5/9).toFixed(2)+' °C'}
+function percentCalc(){percentResult.textContent=((+num.value||0)*(+pct.value||0)/100).toFixed(2)}
+currency();lengthCalc();weightCalc();tempCalc();percentCalc();
+</script>
+</body>
+</html>
